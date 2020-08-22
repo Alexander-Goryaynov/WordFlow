@@ -1,8 +1,10 @@
 import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.MouseInfo;
 
 import javax.swing.JFrame;
 import javax.swing.SpringLayout;
+import javax.swing.Timer;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import java.awt.event.MouseAdapter;
@@ -84,11 +86,33 @@ public class FormMain {
 		lineColorMenuItem.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				panel.setLineColor(JColorChooser.showDialog(frmWordflowKeyboard,
+						"Цвет линии", panel.getLineColor()));
+				panel.repaint();
 			}
 		});
 		menuBar.add(lineColorMenuItem);
 		
-		panel = new KeyboardPanel(new Color(252, 236, 201));
+		Timer timer = new Timer(10, new ActionListener() {			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				var point = MouseInfo.getPointerInfo().getLocation();
+				panel.addNewCoord(point.x - 265, point.y - 160);
+			}
+		});
+		
+		panel = new KeyboardPanel(new Color(252, 236, 201), Color.red);
+		panel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				timer.start();
+			}
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				timer.stop();
+				panel.clearCoords();
+			}
+		});
 		springLayout.putConstraint(SpringLayout.NORTH, panel, 6, SpringLayout.SOUTH, menuBar);
 		springLayout.putConstraint(SpringLayout.WEST, panel, 10, SpringLayout.WEST, frmWordflowKeyboard.getContentPane());
 		springLayout.putConstraint(SpringLayout.SOUTH, panel, 238, SpringLayout.SOUTH, menuBar);

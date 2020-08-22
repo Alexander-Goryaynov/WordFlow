@@ -1,22 +1,37 @@
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-
+import java.util.ArrayList;
 import javax.swing.JPanel;
+
 
 public class KeyboardPanel extends JPanel {
 	
 	private static final long serialVersionUID = 1L;
 	private char[][] letters;
+	private Color lineColor;
 	private Color keyboardColor;
+	private ArrayList<Integer> lineCoords;
 	
-	public KeyboardPanel(Color keyboardColor) {
+	public KeyboardPanel(Color keyboardColor, Color lineColor) {
 		loadLettersFromFile();
 		this.keyboardColor = keyboardColor;
+		this.lineColor = lineColor;
+		lineCoords = new ArrayList<>();
+	}
+	
+	public Color getLineColor() {
+		return lineColor;
+	}
+
+	public void setLineColor(Color lineColor) {
+		this.lineColor = lineColor;
 	}
 	
 	public void setKeyboardColor(Color keyboardColor) {
@@ -27,10 +42,22 @@ public class KeyboardPanel extends JPanel {
 		return keyboardColor;
 	}
 	
+	public void addNewCoord(int x, int y) {
+		lineCoords.add(x);
+		lineCoords.add(y);
+		repaint();
+	}
+	
+	public void clearCoords() {
+		lineCoords.clear();
+		repaint();
+	}
+	
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
 		drawLetters(g);
+		drawLine(g, lineCoords);
 	}
 	
 	private void loadLettersFromFile() {
@@ -87,5 +114,16 @@ public class KeyboardPanel extends JPanel {
 			foreground = Color.BLACK;
 		}
 		return foreground;
+	}
+	
+	private void drawLine(Graphics g, ArrayList<Integer> lineCoords) {
+		g.setColor(lineColor);
+		var g2 = (Graphics2D)g;
+		g2.setStroke(new BasicStroke(3f));
+		for (int i = 0; i < lineCoords.size(); i+=2) {
+			var x = lineCoords.get(i);
+			var y = lineCoords.get(i + 1);
+			g2.drawLine(x, y, x + 1, y + 1);
+		}
 	}
 }
