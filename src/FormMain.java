@@ -76,9 +76,12 @@ public class FormMain {
 		keyboardColorMenuItem.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				panel.setKeyboardColor(JColorChooser.showDialog(frmWordflowKeyboard,
-						"÷вет клавиатуры", panel.getKeyboardColor()));
-				panel.repaint();
+				var color = JColorChooser.showDialog(frmWordflowKeyboard,
+						"÷вет клавиатуры", panel.getKeyboardColor());
+				if (color != null) {
+					panel.setKeyboardColor(color);
+					panel.repaint();
+				}				
 			}
 		});
 		menuBar.add(keyboardColorMenuItem);
@@ -87,9 +90,12 @@ public class FormMain {
 		lineColorMenuItem.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				panel.setLineColor(JColorChooser.showDialog(frmWordflowKeyboard,
-						"÷вет линии", panel.getLineColor()));
-				panel.repaint();
+				var color = JColorChooser.showDialog(frmWordflowKeyboard,
+						"÷вет линии", panel.getLineColor());
+				if (color != null) {
+					panel.setLineColor(color);
+					panel.repaint();
+				}
 			}
 		});
 		menuBar.add(lineColorMenuItem);
