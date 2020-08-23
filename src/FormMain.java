@@ -53,7 +53,7 @@ public class FormMain {
 	private void initialize() {
 		frmWordflowKeyboard = new JFrame();
 		frmWordflowKeyboard.setTitle("WordFlow Keyboard");
-		frmWordflowKeyboard.setBounds(100, 100, 875, 529);
+		frmWordflowKeyboard.setBounds(100, 100, 960, 529);
 		frmWordflowKeyboard.setLocationRelativeTo(null);
 		frmWordflowKeyboard.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		SpringLayout springLayout = new SpringLayout();
