@@ -27,11 +27,13 @@ public class KeyboardPanel extends JPanel {
 	private Color keyboardColor;
 	private ArrayList<Integer> lineCoords;
 	private ArrayList<LetterArea> letterAreas;
-	
+	private boolean isReady;
+
 	public KeyboardPanel(Color keyboardColor, Color lineColor) {
 		loadLettersFromFile();
 		this.keyboardColor = keyboardColor;
 		this.lineColor = lineColor;
+		isReady = false;
 		lineCoords = new ArrayList<>();
 		calculateLetterAreas();
 	}
@@ -52,6 +54,10 @@ public class KeyboardPanel extends JPanel {
 		return keyboardColor;
 	}
 	
+	public void setReady(boolean isReady) {
+		this.isReady = isReady;
+	}
+
 	public void addNewCoord(int x, int y) {
 		// User can draw line for not more than 2 minutes (1000 coords per second).
 		if (lineCoords.size() > 240_000) {
@@ -70,8 +76,12 @@ public class KeyboardPanel extends JPanel {
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
-		drawLetters(g);
-		drawLine(g, lineCoords);
+		if (isReady) {
+			drawLetters(g);
+			drawLine(g, lineCoords);
+		} else {
+			drawLoadScreen(g);
+		}		
 	}
 	
 	public String getLinedLetters() {
@@ -104,6 +114,14 @@ public class KeyboardPanel extends JPanel {
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		}
+	}
+	
+	private void drawLoadScreen(Graphics g) {
+		g.setColor(Color.white);
+		g.fillRect(0, 0, getWidth(), getHeight());
+		g.setColor(Color.darkGray);		
+		g.setFont(new Font("Cambria", Font.BOLD, 64));
+		g.drawString("Идёт загрузка словаря", getWidth()/10, getHeight()/2);
 	}
 	
 	private void calculateLetterAreas() {

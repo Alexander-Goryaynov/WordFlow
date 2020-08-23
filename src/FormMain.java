@@ -23,6 +23,7 @@ public class FormMain {
 	private JTextField textFieldNewWord;
 	private KeyboardPanel panel;
 	private JTextArea textArea;
+	private SearchManager searchManager;
 
 	/**
 	 * Launch the application.
@@ -187,5 +188,7 @@ public class FormMain {
 			}
 		});
 		frmWordflowKeyboard.getContentPane().add(btnNewWord);
+		searchManager = new SearchManager(panel);
+		searchManager.loadWordsFromFile();
 	}
 }
