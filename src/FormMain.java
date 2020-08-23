@@ -22,6 +22,7 @@ public class FormMain {
 	private JFrame frmWordflowKeyboard;
 	private JTextField textFieldNewWord;
 	private KeyboardPanel panel;
+	private JTextArea textArea;
 
 	/**
 	 * Launch the application.
@@ -93,7 +94,7 @@ public class FormMain {
 		});
 		menuBar.add(lineColorMenuItem);
 		
-		Timer timer = new Timer(10, new ActionListener() {			
+		Timer timer = new Timer(1, new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				var point = MouseInfo.getPointerInfo().getLocation();
@@ -110,18 +111,19 @@ public class FormMain {
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				timer.stop();
+				textArea.setText(panel.getLinedLetters());
 				panel.clearCoords();
 			}
 		});
 		springLayout.putConstraint(SpringLayout.NORTH, panel, 6, SpringLayout.SOUTH, menuBar);
 		springLayout.putConstraint(SpringLayout.WEST, panel, 10, SpringLayout.WEST, frmWordflowKeyboard.getContentPane());
-		springLayout.putConstraint(SpringLayout.SOUTH, panel, 238, SpringLayout.SOUTH, menuBar);
 		springLayout.putConstraint(SpringLayout.EAST, panel, -10, SpringLayout.EAST, frmWordflowKeyboard.getContentPane());
 		frmWordflowKeyboard.getContentPane().add(panel);
 		
 		JButton btnFirst = new JButton("-");
-		springLayout.putConstraint(SpringLayout.NORTH, btnFirst, 15, SpringLayout.SOUTH, panel);
 		btnFirst.setVisible(false);
+		springLayout.putConstraint(SpringLayout.NORTH, btnFirst, 270, SpringLayout.SOUTH, menuBar);
+		springLayout.putConstraint(SpringLayout.SOUTH, panel, -6, SpringLayout.NORTH, btnFirst);
 		btnFirst.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			}
@@ -131,8 +133,8 @@ public class FormMain {
 		frmWordflowKeyboard.getContentPane().add(btnFirst);
 		
 		JButton btnSecond = new JButton("-");
-		springLayout.putConstraint(SpringLayout.NORTH, btnSecond, 15, SpringLayout.SOUTH, panel);
 		btnSecond.setVisible(false);
+		springLayout.putConstraint(SpringLayout.NORTH, btnSecond, 0, SpringLayout.NORTH, btnFirst);
 		btnSecond.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			}
@@ -152,32 +154,32 @@ public class FormMain {
 		springLayout.putConstraint(SpringLayout.EAST, btnThird, 852, SpringLayout.WEST, frmWordflowKeyboard.getContentPane());
 		frmWordflowKeyboard.getContentPane().add(btnThird);
 		
-		JTextArea textArea = new JTextArea();
-		springLayout.putConstraint(SpringLayout.NORTH, textArea, 55, SpringLayout.SOUTH, btnFirst);
+		textArea = new JTextArea();
+		springLayout.putConstraint(SpringLayout.NORTH, textArea, 67, SpringLayout.SOUTH, btnFirst);
 		springLayout.putConstraint(SpringLayout.WEST, textArea, 0, SpringLayout.WEST, menuBar);
 		springLayout.putConstraint(SpringLayout.SOUTH, textArea, -10, SpringLayout.SOUTH, frmWordflowKeyboard.getContentPane());
 		springLayout.putConstraint(SpringLayout.EAST, textArea, -8, SpringLayout.EAST, frmWordflowKeyboard.getContentPane());
 		frmWordflowKeyboard.getContentPane().add(textArea);
 		
 		textFieldNewWord = new JTextField();
-		springLayout.putConstraint(SpringLayout.NORTH, textFieldNewWord, 16, SpringLayout.SOUTH, btnFirst);
+		springLayout.putConstraint(SpringLayout.SOUTH, textFieldNewWord, -6, SpringLayout.NORTH, textArea);
 		frmWordflowKeyboard.getContentPane().add(textFieldNewWord);
 		textFieldNewWord.setColumns(10);
 		
 		JLabel lblNewWord = new JLabel("\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C \u0441\u043B\u043E\u0432\u043E");
-		springLayout.putConstraint(SpringLayout.WEST, textFieldNewWord, 6, SpringLayout.EAST, lblNewWord);
-		springLayout.putConstraint(SpringLayout.EAST, textFieldNewWord, 325, SpringLayout.EAST, lblNewWord);
-		springLayout.putConstraint(SpringLayout.NORTH, lblNewWord, 19, SpringLayout.SOUTH, btnFirst);
+		springLayout.putConstraint(SpringLayout.NORTH, lblNewWord, 1, SpringLayout.NORTH, textFieldNewWord);
+		springLayout.putConstraint(SpringLayout.WEST, textFieldNewWord, 10, SpringLayout.EAST, lblNewWord);
 		springLayout.putConstraint(SpringLayout.WEST, lblNewWord, 10, SpringLayout.WEST, frmWordflowKeyboard.getContentPane());
 		frmWordflowKeyboard.getContentPane().add(lblNewWord);
 		
 		JButton btnNewWord = new JButton("\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C");
+		springLayout.putConstraint(SpringLayout.WEST, btnNewWord, 423, SpringLayout.WEST, frmWordflowKeyboard.getContentPane());
+		springLayout.putConstraint(SpringLayout.EAST, textFieldNewWord, -6, SpringLayout.WEST, btnNewWord);
+		springLayout.putConstraint(SpringLayout.SOUTH, btnNewWord, -6, SpringLayout.NORTH, textArea);
 		btnNewWord.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
-		springLayout.putConstraint(SpringLayout.WEST, btnNewWord, 13, SpringLayout.EAST, textFieldNewWord);
-		springLayout.putConstraint(SpringLayout.SOUTH, btnNewWord, 0, SpringLayout.SOUTH, textFieldNewWord);
 		frmWordflowKeyboard.getContentPane().add(btnNewWord);
 	}
 }
