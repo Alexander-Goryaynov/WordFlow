@@ -111,6 +111,7 @@ public class KeyboardPanel extends JPanel {
 				}
 				i++;
 			}
+			br.close();
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		}

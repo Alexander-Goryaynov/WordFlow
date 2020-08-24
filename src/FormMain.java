@@ -118,7 +118,12 @@ public class FormMain {
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				timer.stop();
-				textArea.setText(panel.getLinedLetters());
+				var words = searchManager.searchByPattern(panel.getLinedLetters());
+				String text = "";
+				for (var word : words) {
+					text = text + word + " ";
+				}
+				textArea.setText(text);
 				panel.clearCoords();
 			}
 		});
@@ -162,6 +167,7 @@ public class FormMain {
 		frmWordflowKeyboard.getContentPane().add(btnThird);
 		
 		textArea = new JTextArea();
+		textArea.setLineWrap(true);
 		springLayout.putConstraint(SpringLayout.NORTH, textArea, 67, SpringLayout.SOUTH, btnFirst);
 		springLayout.putConstraint(SpringLayout.WEST, textArea, 0, SpringLayout.WEST, menuBar);
 		springLayout.putConstraint(SpringLayout.SOUTH, textArea, -10, SpringLayout.SOUTH, frmWordflowKeyboard.getContentPane());
