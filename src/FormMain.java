@@ -194,12 +194,12 @@ public class FormMain {
 		frmWordflowKeyboard.getContentPane().add(scroll);
 		
 		textFieldNewWord = new JTextField();
-		springLayout.putConstraint(SpringLayout.SOUTH, textFieldNewWord, -6, SpringLayout.NORTH, textArea);
+		springLayout.putConstraint(SpringLayout.SOUTH, textFieldNewWord, -6, SpringLayout.NORTH, scroll);
 		frmWordflowKeyboard.getContentPane().add(textFieldNewWord);
 		textFieldNewWord.setColumns(10);
 		
 		JLabel lblNewWord = new JLabel("\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C \u0441\u043B\u043E\u0432\u043E");
-		springLayout.putConstraint(SpringLayout.SOUTH, lblNewWord, -10, SpringLayout.NORTH, textArea);
+		springLayout.putConstraint(SpringLayout.SOUTH, lblNewWord, -10, SpringLayout.NORTH, scroll);
 		lblNewWord.setFont(new Font("Cambria", Font.PLAIN, 14));
 		springLayout.putConstraint(SpringLayout.WEST, textFieldNewWord, 10, SpringLayout.EAST, lblNewWord);
 		springLayout.putConstraint(SpringLayout.WEST, lblNewWord, 10, SpringLayout.WEST, frmWordflowKeyboard.getContentPane());
@@ -210,7 +210,7 @@ public class FormMain {
 		btnNewWord.setFont(new Font("Cambria", Font.BOLD, 14));
 		springLayout.putConstraint(SpringLayout.WEST, btnNewWord, 423, SpringLayout.WEST, frmWordflowKeyboard.getContentPane());
 		springLayout.putConstraint(SpringLayout.EAST, textFieldNewWord, -6, SpringLayout.WEST, btnNewWord);
-		springLayout.putConstraint(SpringLayout.SOUTH, btnNewWord, -6, SpringLayout.NORTH, textArea);
+		springLayout.putConstraint(SpringLayout.SOUTH, btnNewWord, -6, SpringLayout.NORTH, scroll);
 		btnNewWord.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			}
