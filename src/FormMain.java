@@ -148,7 +148,7 @@ public class FormMain {
 			public void mouseReleased(MouseEvent e) {
 				timer.stop();
 				var words = searchManager.searchByPattern(panel.getLinedLetters());
-				showPurposes(words);
+				showProposals(words);
 				panel.clearCoords();
 			}
 		});
@@ -246,7 +246,7 @@ public class FormMain {
 		searchManager.loadWordsFromFile();
 	}
 	
-	private void showPurposes(ArrayList<String> words) {
+	private void showProposals(ArrayList<String> words) {
 		hideAllButtons();
 		if (words.size() == 0) {			
 			return;
