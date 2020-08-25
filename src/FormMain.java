@@ -120,7 +120,9 @@ public class FormMain {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				var point = MouseInfo.getPointerInfo().getLocation();
-				panel.addNewCoord(point.x - 265, point.y - 160);
+				var winLocation = frmWordflowKeyboard.getLocationOnScreen();
+				panel.addNewCoord((int)(point.getX() - winLocation.getX() - 15), 
+						(int)(point.getY() - winLocation.getY() - 72));
 			}
 		});
 		
