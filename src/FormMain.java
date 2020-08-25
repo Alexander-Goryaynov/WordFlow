@@ -11,6 +11,8 @@ import javax.swing.JScrollPane;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
 import javax.swing.JTextArea;
@@ -132,11 +134,7 @@ public class FormMain {
 			public void mouseReleased(MouseEvent e) {
 				timer.stop();
 				var words = searchManager.searchByPattern(panel.getLinedLetters());
-				String text = "";
-				for (var word : words) {
-					text = text + word + " ";
-				}
-				textArea.setText(text);
+				showPurposes(words);
 				panel.clearCoords();
 			}
 		});
@@ -152,6 +150,7 @@ public class FormMain {
 		springLayout.putConstraint(SpringLayout.SOUTH, panel, -6, SpringLayout.NORTH, btnFirst);
 		btnFirst.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				addButtonTextToArea(arg0);
 			}
 		});
 		springLayout.putConstraint(SpringLayout.WEST, btnFirst, 10, SpringLayout.WEST, frmWordflowKeyboard.getContentPane());
@@ -159,27 +158,29 @@ public class FormMain {
 		frmWordflowKeyboard.getContentPane().add(btnFirst);
 		
 		btnSecond = new JButton("-");
+		springLayout.putConstraint(SpringLayout.WEST, btnSecond, 40, SpringLayout.EAST, btnFirst);
 		btnSecond.setFont(new Font("Cambria", Font.PLAIN, 14));
 		btnSecond.setVisible(false);
 		springLayout.putConstraint(SpringLayout.NORTH, btnSecond, 0, SpringLayout.NORTH, btnFirst);
 		btnSecond.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				addButtonTextToArea(arg0);
 			}
 		});
-		springLayout.putConstraint(SpringLayout.WEST, btnSecond, 6, SpringLayout.EAST, btnFirst);
-		springLayout.putConstraint(SpringLayout.EAST, btnSecond, 565, SpringLayout.WEST, frmWordflowKeyboard.getContentPane());
 		frmWordflowKeyboard.getContentPane().add(btnSecond);
 		
 		btnThird = new JButton("-");
+		springLayout.putConstraint(SpringLayout.EAST, btnSecond, -40, SpringLayout.WEST, btnThird);
+		springLayout.putConstraint(SpringLayout.WEST, btnThird, -280, SpringLayout.EAST, frmWordflowKeyboard.getContentPane());
+		springLayout.putConstraint(SpringLayout.EAST, btnThird, 0, SpringLayout.EAST, panel);
 		btnThird.setFont(new Font("Cambria", Font.PLAIN, 14));
 		btnThird.setVisible(false);
 		btnThird.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				addButtonTextToArea(arg0);
 			}
 		});
 		springLayout.putConstraint(SpringLayout.NORTH, btnThird, 0, SpringLayout.NORTH, btnFirst);
-		springLayout.putConstraint(SpringLayout.WEST, btnThird, 570, SpringLayout.WEST, frmWordflowKeyboard.getContentPane());
-		springLayout.putConstraint(SpringLayout.EAST, btnThird, 852, SpringLayout.WEST, frmWordflowKeyboard.getContentPane());
 		frmWordflowKeyboard.getContentPane().add(btnThird);
 		
 		textArea = new JTextArea();
@@ -219,4 +220,38 @@ public class FormMain {
 		searchManager = new SearchManager(panel);
 		searchManager.loadWordsFromFile();
 	}
+	
+	private void showPurposes(ArrayList<String> words) {
+		hideAllButtons();
+		if (words.size() == 0) {			
+			return;
+		}
+		JButton[] buttons = new JButton[] {btnFirst, btnSecond, btnThird};
+		for (int i = 0; i < buttons.length; i++) {
+			if (i < words.size()) {
+				buttons[i].setText(words.get(i));
+				buttons[i].setVisible(true);
+			}
+		}
+	}
+	
+	private void hideAllButtons() {
+		btnFirst.setVisible(false);
+		btnSecond.setVisible(false);
+		btnThird.setVisible(false);
+	}
+	
+	private void addButtonTextToArea(ActionEvent event) {
+		JButton button = (JButton)event.getSource();
+		var text = textArea.getText();
+		if (!text.equals("")) {
+			if (text.charAt(text.length() - 1) != ' ') {
+				text += " ";
+				textArea.setText(text);
+			}			
+		}
+		textArea.setText(textArea.getText() + button.getText() + " ");
+		hideAllButtons();
+	}
+
 }
