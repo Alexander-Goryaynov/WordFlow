@@ -7,6 +7,7 @@ import javax.swing.SpringLayout;
 import javax.swing.Timer;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 
 import java.awt.event.MouseAdapter;
@@ -74,15 +75,26 @@ public class FormMain {
 		springLayout.putConstraint(SpringLayout.WEST, menuBar, 10, SpringLayout.WEST, frmWordflowKeyboard.getContentPane());
 		frmWordflowKeyboard.getContentPane().add(menuBar);
 		
-		JMenuItem clearWordsMenuItem = new JMenuItem("\u041E\u0447\u0438\u0441\u0442\u0438\u0442\u044C \u0438\u0441\u0442\u043E\u0440\u0438\u044E");
-		clearWordsMenuItem.setBackground(new Color(255, 228, 225));
-		clearWordsMenuItem.setFont(new Font("Cambria", Font.PLAIN, 16));
-		clearWordsMenuItem.addMouseListener(new MouseAdapter() {
+		JMenuItem clearHistoryMenuItem = new JMenuItem("\u041E\u0447\u0438\u0441\u0442\u0438\u0442\u044C \u0438\u0441\u0442\u043E\u0440\u0438\u044E");
+		clearHistoryMenuItem.setBackground(new Color(255, 228, 225));
+		clearHistoryMenuItem.setFont(new Font("Cambria", Font.PLAIN, 16));
+		clearHistoryMenuItem.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				var result = JOptionPane.showConfirmDialog(frmWordflowKeyboard,
+						"Удалить все пользовательские слова?", "Очистить историю",
+						JOptionPane.YES_NO_OPTION);
+				if (result == JOptionPane.YES_OPTION) {
+					try {
+						searchManager.clearHistory();
+						JOptionPane.showMessageDialog(frmWordflowKeyboard, "История успешно удалена");
+					} catch (Exception ex) {
+						JOptionPane.showMessageDialog(frmWordflowKeyboard, ex.getMessage());
+					}
+				}
 			}
 		});
-		menuBar.add(clearWordsMenuItem);
+		menuBar.add(clearHistoryMenuItem);
 		
 		JMenuItem keyboardColorMenuItem = new JMenuItem("\u0426\u0432\u0435\u0442 \u043A\u043B\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u044B");
 		keyboardColorMenuItem.setBackground(new Color(224, 255, 255));
@@ -216,6 +228,17 @@ public class FormMain {
 		springLayout.putConstraint(SpringLayout.SOUTH, btnNewWord, -6, SpringLayout.NORTH, scroll);
 		btnNewWord.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				var text = textFieldNewWord.getText();
+				if (text.equals("")) {
+					return;
+				}
+				text = text.toLowerCase();
+				try {
+					searchManager.addNewWordToFile(text);
+					textFieldNewWord.setText("");
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(frmWordflowKeyboard, e.getMessage());
+				}
 			}
 		});
 		frmWordflowKeyboard.getContentPane().add(btnNewWord);

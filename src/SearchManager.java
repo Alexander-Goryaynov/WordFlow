@@ -1,10 +1,11 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.concurrent.CompletableFuture;
 
@@ -51,6 +52,67 @@ public class SearchManager {
 				}
 			}
 		);
+	}
+	
+	public void addNewWordToFile(String word) throws Exception {
+		checkNewWord(word);
+		try {
+			File sourceFile = new File(DICT_PATH);
+			File destFile = new File(DICT_PATH + "1");
+			var br = new BufferedReader(new FileReader(sourceFile));
+			var bw = new BufferedWriter(new FileWriter(destFile));
+			String str = null;
+			while ((str = br.readLine()) != null) {
+				bw.write(str);
+				bw.newLine();
+			}
+			bw.write(word);
+			br.close();
+			bw.close();
+			sourceFile.delete();
+			destFile.renameTo(sourceFile);
+			loadWordsFromFile();
+		} catch (Exception e) {
+			throw new Exception("Ошибка записи в файл");
+		}
+	}
+	
+	public void checkNewWord(String word) throws Exception {
+		var isWrong = word.matches(
+				"(.*)(\\d)(.*)|(.*)(\\s)(.*)|(.*)([a-z])(.*)|(.*)(\\p{P})(.*)"
+		);
+		for (var w : words) {
+			if (w.equals(word)) {
+				throw new Exception("Это слово уже есть в словаре");
+			}
+		}
+		if (isWrong) {
+			throw new Exception("Слово должно состоять только из русских букв");
+		}
+	}
+	
+	public void clearHistory() throws Exception {
+		try {
+			File sourceFile = new File(DICT_PATH);
+			File destFile = new File(DICT_PATH + "1");
+			var br = new BufferedReader(new FileReader(sourceFile));
+			var bw = new BufferedWriter(new FileWriter(destFile));
+			String str = null;
+			while ((str = br.readLine()) != null) {
+				bw.write(str);
+				if (str.equals("-----")) {
+					break;
+				}
+				bw.newLine();
+			}
+			br.close();
+			bw.close();
+			sourceFile.delete();
+			destFile.renameTo(sourceFile);
+			loadWordsFromFile();
+		} catch (Exception e) {
+			throw new Exception("Ошибка при работе с файлом");
+		}
 	}
 	
 	public ArrayList<String> searchByPattern(String pattern) {
